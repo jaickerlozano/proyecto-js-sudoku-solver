@@ -1,0 +1,63 @@
+body {
+  text-align: center;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h2 {
+  display: none;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+#entrada {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  justify-content: center;
+}
+
+.inactive {
+  display: none;
+}
+
+.active {
+  display: inline-block;
+}
+
+.celda {
+  height: 30px;
+  text-align: center;
+  border: 1px solid gray;
+  align-content: center;
+}
+
+.fija {
+  font-weight: 600;
+}
+
+[data-c="2"], [data-c="5"] {
+  border-right: 3px solid black;
+}
+
+[data-r="2"], [data-r="5"] {
+  border-bottom: 3px solid black;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#digits {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  justify-content: center;
+  gap: 10px
+}
