@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sudoku-solver</title>
+    <script type="module" crossorigin src="/assets/index-CSJGAk2N.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dtf_PoAC.css">
+  </head>
+  <body>
+    <h1>Sudoku</h1>
+    <p>Ingresa tu propio sudoku pulsando <strong>Ingresar</strong> o pulsa <strong>Generar</strong> para iniciar uno automáticamente</p>
+
+    <!-- buttons -->
+    <div id="controls">
+      <button type="button" id="ingresar">Ingresar Sudoku</button>
+      <button type="button" id="generar">Generar Sudoku</button>
+      <button type="button" id="iniciar" class="inactive">Iniciar</button>
+    </div>
+    <div id="entrada-container"></div>
+
+    <!-- Errors -->
+    <h2 id="errors">Errores: <span>0</span></h2>
+
+    <!-- Timmer -->
+    <!-- <p id="timmer"></p> -->
+<!-- 9x9 board-->    
+    <div id="board"></div>
+    <div id="digits"></div>
+  </body>
+</html>
