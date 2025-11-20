@@ -12,23 +12,26 @@ export function arrayDosDim(tableroPlano) {
 
 
 export function isValido(tablero, num, fila, col) {
-    debugger
+
+    const n = num.toString();
+
     // Validar fila
     for (let c = 0; c < 9; c++) {
-        if(tablero[fila][c] === num.toString()) return false;
+        if (tablero[fila][c] === n) return false;
     }
 
-    // Columnas 
+    // Validar columna
     for (let r = 0; r < 9; r++) {
-        if(tablero[r][col] === num.toString()) return false;
+        if (tablero[r][col] === n) return false;
     }
 
     // Subcuadrante
     const startRow = Math.floor(fila / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
+
     for (let r = startRow; r < startRow + 3; r++) {
         for (let c = startCol; c < startCol + 3; c++) {
-            if (tablero[r][c] === num.toString()) return false;
+            if (tablero[r][c] === n) return false;
         }
     }
 
