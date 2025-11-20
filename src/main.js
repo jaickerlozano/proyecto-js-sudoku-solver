@@ -11,6 +11,6 @@ document.getElementById('generar')
     // futura función para generar sudoku
 });
 
-document.getElementById('iniciar').addEventListener('click', () => sudoku.iniciarJuego());
+document.getElementById('cargar').addEventListener('click', () => sudoku.iniciarJuego());
 
-document.getElementById('digits').addEventListener('click', () => sudoku.jugar());
+document.getElementById('resolver').addEventListener('click', () => sudoku.resolverSudoku());

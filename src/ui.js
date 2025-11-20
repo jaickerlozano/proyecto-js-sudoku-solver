@@ -3,12 +3,22 @@ let numeroSeleccionado = null;
 let celdaSeleccionada = null;
 
 export function getNumeroSeleccionado() {
+    
   return numeroSeleccionado;
 }
 
 export function setNumeroSeleccionado(num) {
   numeroSeleccionado = num;
 }
+
+export function getCeldaSeleccionada() {
+    return celdaSeleccionada;
+}
+
+export function setCeldaSeleccionada(num) {
+    celdaSeleccionada = num;
+}
+
 
 //DOM
 const contenedor = document.getElementById('entrada-container');
@@ -76,11 +86,25 @@ export function crearTableroDOM(arraySudoku) {
         }
     };
 
-    // Se esconde los botones ingresar y generar y, se activa el botón iniciarJuego
+    // Se esconde los botones ingresar y generar y, se activa el botón cargar
     document.getElementById('ingresar').classList.add('inactive');
     document.getElementById('generar').classList.add('inactive');
-    document.getElementById('iniciar').classList.replace('inactive', 'active');
+    document.getElementById('cargar').classList.replace('inactive', 'active');
     contenedor.classList.add('inactive');
+}
+
+export function actualizarTableroArray(tablero) {
+    let tableroAux = [];
+
+    for (let i = 0; i < 81; i++) {
+        if (tablero.children[i].textContent === '') {
+            tableroAux.push('0');
+        } else {
+            tableroAux.push(tablero.children[i].textContent);
+        }
+    }
+
+    return tableroAux;
 }
 
 export function crearNumeros() {

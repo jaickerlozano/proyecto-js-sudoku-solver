@@ -34,10 +34,12 @@ h2 {
   text-align: center;
   border: 1px solid gray;
   align-content: center;
+  cursor: pointer;
 }
 
 .fija {
   font-weight: 600;
+  color: black;
 }
 
 [data-c="2"], [data-c="5"] {
@@ -53,6 +55,7 @@ h2 {
   grid-template-columns: repeat(9, 40px);
   justify-content: center;
   margin-bottom: 20px;
+  color:rgb(60, 60, 202)
 }
 
 #digits {
@@ -60,4 +63,14 @@ h2 {
   grid-template-columns: repeat(9, 40px);
   justify-content: center;
   gap: 10px
+}
+
+#digits .celda:hover {
+  color: beige;
+  background-color: rgb(106, 106, 231);
+}
+
+.celda.selected {
+  color: beige;
+  background-color: rgb(60, 60, 202);
 }
