@@ -2,7 +2,7 @@ import { crearFormulario, crearTableroDOM, crearNumeros,
   getNumeroSeleccionado, setNumeroSeleccionado, getCeldaSeleccionada, 
   setCeldaSeleccionada, actualizarTableroArray, instrucciones } from "./ui";
 
-import { solveSudoku, generarTablero, prepararTableroInicial} from "./solver";
+import { solveSudoku, generarTablero, prepararTableroInicial, esTableroCorrecto, arrayDosDim} from "./solver";
 
 export class Sudoku {
   constructor() {
@@ -27,6 +27,11 @@ export class Sudoku {
 
       if (tableroListo === null) {
           alert("El tablero ingresado NO cumple las reglas del Sudoku.");
+          return;
+      }
+
+      if (tableroListo === "NO_SOLUCION") {
+          alert("El tablero ingresado NO tiene solución.");
           return;
       }
 
@@ -56,8 +61,8 @@ export class Sudoku {
 
       setTimeout(() => {
         instrucciones.textContent = '';
-      }, 2000);
-    }, 2000);
+      }, 1500);
+    }, 1000);
     document.getElementById('cargar').classList.replace('active', 'inactive');
   }
 
@@ -79,6 +84,8 @@ export class Sudoku {
 
         setCeldaSeleccionada(num);
         this.sudoku = actualizarTableroArray(tableroDOM); // Se actualiza el array del tablero inicial con la celda marcada
+
+        this.juegoGanado();
       })
     }
 
@@ -109,6 +116,9 @@ export class Sudoku {
 
     this.sudoku = solucion;
 
+    instrucciones.textContent = "🎉 ¡Sudoku resuelto!";
+    document.getElementById('resolver').classList.replace('active', 'inactive');
+
     crearTableroDOM(this.sudoku);
   }
 
@@ -118,5 +128,22 @@ export class Sudoku {
     document.getElementById('ingresar').classList.replace('active', 'inactive');
     crearTableroDOM(this.sudoku);
     this.iniciarJuego();
+  }
+
+  juegoGanado() {
+
+    // Convertir a 2D reutilizando tu función ya existente
+    const tablero2D = arrayDosDim([...this.sudoku]);
+
+    // Validar si el sudoku está correctamente resuelto
+    const ganado = esTableroCorrecto(tablero2D);
+
+    if (ganado) {
+      instrucciones.textContent = "🎉 ¡Sudoku completado correctamente!";
+      document.getElementById("board").classList.add("bloqueado");
+      document.getElementById('resolver').classList.replace('active', 'inactive');
+    }
+
+    return ganado;
   }
 }

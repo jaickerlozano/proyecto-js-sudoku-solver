@@ -1,6 +1,6 @@
 // Función para validar si el tablero es vacío
 export function esTableroVacio(tableroPlano) {
-    return tableroPlano.every(c => c === "0");
+    return tableroPlano.every(c => c === "0"); 
 }
 
 // Función para validar que el tablero ingresado cumple con las reglas de un sudoku
@@ -42,22 +42,35 @@ export function tableroEsValido(tableroPlano) {
     return true;
 }
 
+// Función para verificar que el tablero ingresado tiene solución
+export function tableroTieneSolucion(tableroPlano) {
+    // Copia profunda
+    const tablero = arrayDosDim([...tableroPlano]);
+
+    return solveSudoku(tablero);
+}
+
+
 // Función para preparar tablero
 export function prepararTableroInicial(tableroPlano) {
 
-    // A) Si está vacío → generar uno
     if (esTableroVacio(tableroPlano)) {
-        console.log("TABLERO ESTÁ VACÍO → Generando Sudoku automático");
-        return generarTablero();  
+        console.log("TABLERO VACÍO → creando uno automático");
+        return generarTablero();
     }
 
-    // B) Si no es válido según reglas del sudoku
     if (!tableroEsValido(tableroPlano)) {
-        console.log("ERROR: tablero ingresado no cumple las reglas del Sudoku");
+        console.log("TABLERO INVÁLIDO → incumple reglas de Sudoku");
         return null;
     }
 
-    // C) Si está bien → usar el que ingresó el usuario
+    // Validar si puede resolverse
+    if (!tableroTieneSolucion(tableroPlano)) {
+        console.log("TABLERO SIN SOLUCIÓN");
+        return "NO_SOLUCION";
+    }
+
+    // Si todo está bien → devolver tablero ingresado
     return tableroPlano;
 }
 
@@ -201,4 +214,40 @@ function resolver(tablero) {
     }
 
     return true;
+}
+
+// Función para validar si hay se ha llenado todo el tablero
+export function esTableroCorrecto(tablero) {
+  // Validar filas
+  for (let r = 0; r < 9; r++) {
+    const fila = tablero[r];
+    const set = new Set(fila);
+    if (set.size !== 9 || [...set].includes('0')) return false;
+  }
+
+  // Validar columnas
+  for (let c = 0; c < 9; c++) {
+    const col = [];
+    for (let r = 0; r < 9; r++) col.push(tablero[r][c]);
+
+    const set = new Set(col);
+    if (set.size !== 9 || [...set].includes('0')) return false;
+  }
+
+  // Validar subcuadrantes (3x3)
+  for (let sr = 0; sr < 9; sr += 3) {
+    for (let sc = 0; sc < 9; sc += 3) {
+      const sub = [];
+      for (let r = sr; r < sr + 3; r++) {
+        for (let c = sc; c < sc + 3; c++) {
+          sub.push(tablero[r][c]);
+        }
+      }
+
+      const set = new Set(sub);
+      if (set.size !== 9 || [...set].includes('0')) return false;
+    }
+  }
+
+  return true;
 }

@@ -73,6 +73,11 @@ button {
   color:rgb(60, 60, 202)
 }
 
+#board.bloqueado .celda {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 #digits {
   display: grid;
   grid-template-columns: repeat(9, 40px);
