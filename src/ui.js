@@ -1,6 +1,7 @@
 // Variables
 let numeroSeleccionado = null;
 let celdaSeleccionada = null;
+export const instrucciones = document.getElementById('instrucciones'); // Esto es un p donde se van a ir actualizando las instrucciones
 
 export function getNumeroSeleccionado() {
     
@@ -53,6 +54,7 @@ export function crearFormulario() {
 
     const btnAceptar = document.createElement('button');
     btnAceptar.type = 'button';
+    btnAceptar.id = 'aceptar';
     btnAceptar.innerText = 'Aceptar';
 
     form.appendChild(btnAceptar);
@@ -89,7 +91,6 @@ export function crearTableroDOM(arraySudoku) {
     // Se esconde los botones ingresar y generar y, se activa el botón cargar
     document.getElementById('ingresar').classList.add('inactive');
     document.getElementById('generar').classList.add('inactive');
-    document.getElementById('cargar').classList.replace('inactive', 'active');
     contenedor.classList.add('inactive');
 }
 

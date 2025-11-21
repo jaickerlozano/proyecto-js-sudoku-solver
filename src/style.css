@@ -15,10 +15,25 @@ h2 {
   padding: 10px;
 }
 
+button {
+  font-size: 16px;
+  font-weight: 600;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #entrada {
   display: grid;
   grid-template-columns: repeat(9, 40px);
   justify-content: center;
+}
+
+#aceptar {
+  margin-top: 10px;
 }
 
 .inactive {

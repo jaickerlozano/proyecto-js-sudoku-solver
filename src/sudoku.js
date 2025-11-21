@@ -1,8 +1,8 @@
 import { crearFormulario, crearTableroDOM, crearNumeros, 
   getNumeroSeleccionado, setNumeroSeleccionado, getCeldaSeleccionada, 
-  setCeldaSeleccionada, actualizarTableroArray } from "./ui";
+  setCeldaSeleccionada, actualizarTableroArray, instrucciones } from "./ui";
 
-import { solveSudoku } from "./solver";
+import { solveSudoku, generarTablero} from "./solver";
 
 export class Sudoku {
   constructor() {
@@ -10,25 +10,46 @@ export class Sudoku {
   }
 
   ingresarSudoku() {
+
+    document.getElementById('ingresar').classList.replace('active', 'inactive');
+    document.getElementById('generar').classList.replace('active', 'inactive');
+    
+    instrucciones.textContent = `Seleccione una a una la celda e ingrese los números correspondientes y pulse "Aceptar"`;
+
     const { inputs, btnAceptar } = crearFormulario();
 
     btnAceptar.onclick = () => {
       this.sudoku = inputs.map(i => i.value || "0"); // Se ingresan datos del tablero proporcionado por el usuario
       console.log("Sudoku cargado:", this.sudoku);
       crearTableroDOM(this.sudoku);
+      instrucciones.textContent = 'Pulse "Cargar Formulario"';
+      document.getElementById('cargar').classList.replace('inactive', 'active');
     };
   }
 
   // Método para iniciar el juego
   iniciarJuego() {
-    crearNumeros();
+    instrucciones.textContent = 'Cargando sudoku...';
+
+    setTimeout(() => {
+
+      crearNumeros();
+
+      instrucciones.textContent = '¡Sudoku cargado correctamente!'
+      document.getElementById('resolver').classList.replace('inactive', 'active');
+
+      this.marcarTablero();
+
+      setTimeout(() => {
+        instrucciones.textContent = '';
+      }, 2000);
+    }, 2000);
     document.getElementById('cargar').classList.replace('active', 'inactive');
-    document.getElementById('resolver').classList.replace('inactive', 'active');
-    this.marcarTablero();
   }
 
   // Método para marcar en el tablero del DOM
   marcarTablero() {
+
     const tableroDOM = document.getElementById('board');
     const numeroTableroDOM = [...tableroDOM.children];
     const digitos = document.getElementById('digits');
@@ -42,7 +63,7 @@ export class Sudoku {
 
         num.textContent = getNumeroSeleccionado();
 
-        setCeldaSeleccionada();
+        setCeldaSeleccionada(num);
         this.sudoku = actualizarTableroArray(tableroDOM); // Se actualiza el array del tablero inicial con la celda marcada
       })
     }
@@ -64,6 +85,7 @@ export class Sudoku {
 
   resolverSudoku() {
 
+    console.log(this.sudoku)
     const solucion = solveSudoku(this.sudoku);
 
     if (!solucion) {
@@ -74,6 +96,13 @@ export class Sudoku {
     this.sudoku = solucion;
 
     crearTableroDOM(this.sudoku);
-  
+  }
+
+  generarSudoku() {
+    this.sudoku = generarTablero();
+    document.getElementById('generar').classList.replace('active', 'inactive');
+    document.getElementById('ingresar').classList.replace('active', 'inactive');
+    crearTableroDOM(this.sudoku);
+    this.iniciarJuego();
   }
 }
