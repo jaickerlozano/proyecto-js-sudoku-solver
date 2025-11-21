@@ -1,3 +1,66 @@
+// Función para validar si el tablero es vacío
+export function esTableroVacio(tableroPlano) {
+    return tableroPlano.every(c => c === "0");
+}
+
+// Función para validar que el tablero ingresado cumple con las reglas de un sudoku
+export function tableroEsValido(tableroPlano) {
+    const tablero = arrayDosDim([...tableroPlano]);
+
+    const sinDuplicados = arr => {
+        const numeros = arr.filter(x => x !== '0');
+        return new Set(numeros).size === numeros.length;
+    };
+
+    // Validar filas
+    for (let fila = 0; fila < 9; fila++) {
+        if (!sinDuplicados(tablero[fila])) return false;
+    }
+
+    // Validar columnas
+    for (let col = 0; col < 9; col++) {
+        const columna = tablero.map(f => f[col]);
+        if (!sinDuplicados(columna)) return false;
+    }
+
+    // Validar cuadrantes 3x3
+    for (let sr = 0; sr < 9; sr += 3) {
+        for (let sc = 0; sc < 9; sc += 3) {
+
+            const cuadrante = [];
+
+            for (let r = sr; r < sr + 3; r++) {
+                for (let c = sc; c < sc + 3; c++) {
+                    cuadrante.push(tablero[r][c]);
+                }
+            }
+
+            if (!sinDuplicados(cuadrante)) return false;
+        }
+    }
+
+    return true;
+}
+
+// Función para preparar tablero
+export function prepararTableroInicial(tableroPlano) {
+
+    // A) Si está vacío → generar uno
+    if (esTableroVacio(tableroPlano)) {
+        console.log("TABLERO ESTÁ VACÍO → Generando Sudoku automático");
+        return generarTablero();  
+    }
+
+    // B) Si no es válido según reglas del sudoku
+    if (!tableroEsValido(tableroPlano)) {
+        console.log("ERROR: tablero ingresado no cumple las reglas del Sudoku");
+        return null;
+    }
+
+    // C) Si está bien → usar el que ingresó el usuario
+    return tableroPlano;
+}
+
 // Utilidad para mezclar un array
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -15,6 +78,7 @@ export function arrayDosDim(tableroPlano) {
     return tablero;
 }
 
+// Función para validar que se cumple las reglas del sudoku
 export function isValido(tablero, num, fila, col) {
     const n = num.toString();
 
@@ -41,7 +105,7 @@ export function isValido(tablero, num, fila, col) {
     return true;
 }
 
-// ⭐ PASO 1: Generar solución completa por backtracking
+// PASO 1: Generar solución completa por backtracking
 function generarSolucionCompleta(tablero) {
     for (let fila = 0; fila < 9; fila++) {
         for (let col = 0; col < 9; col++) {
@@ -58,7 +122,7 @@ function generarSolucionCompleta(tablero) {
 
                         if (generarSolucionCompleta(tablero)) return true;
 
-                        tablero[fila][col] = '0';
+                        tablero[fila][col] = '0'; // Backtrack
                     }
                 }
 
@@ -70,7 +134,7 @@ function generarSolucionCompleta(tablero) {
     return true; // COMPLETAMENTE LLENO
 }
 
-// ⭐ PASO 2: Vaciar celdas (generar sudoku jugable)
+// PASO 2: Vaciar celdas (generar sudoku jugable)
 function crearPuzzleDesdeSolucion(tableroCompleto, cantidadAEliminar = 50) {
     let tablero = tableroCompleto.flat();
     
@@ -87,7 +151,7 @@ function crearPuzzleDesdeSolucion(tableroCompleto, cantidadAEliminar = 50) {
     return tablero;
 }
 
-// ⭐ Función principal para tu proyecto
+// Función principal para generar el tablero
 export function generarTablero() {
 
     // Crear tablero vacío
@@ -127,7 +191,7 @@ function resolver(tablero) {
 
                         if (resolver(tablero)) return true;
 
-                        tablero[fila][col] = '0';
+                        tablero[fila][col] = '0'; // Backtrack
                     }
                 }
 

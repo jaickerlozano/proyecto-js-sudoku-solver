@@ -2,7 +2,7 @@ import { crearFormulario, crearTableroDOM, crearNumeros,
   getNumeroSeleccionado, setNumeroSeleccionado, getCeldaSeleccionada, 
   setCeldaSeleccionada, actualizarTableroArray, instrucciones } from "./ui";
 
-import { solveSudoku, generarTablero} from "./solver";
+import { solveSudoku, generarTablero, prepararTableroInicial} from "./solver";
 
 export class Sudoku {
   constructor() {
@@ -19,9 +19,23 @@ export class Sudoku {
     const { inputs, btnAceptar } = crearFormulario();
 
     btnAceptar.onclick = () => {
-      this.sudoku = inputs.map(i => i.value || "0"); // Se ingresan datos del tablero proporcionado por el usuario
-      console.log("Sudoku cargado:", this.sudoku);
+
+      const tableroIngresado = inputs.map(i => i.value || "0");
+
+      // Validación completa
+      const tableroListo = prepararTableroInicial(tableroIngresado);
+
+      if (tableroListo === null) {
+          alert("El tablero ingresado NO cumple las reglas del Sudoku.");
+          return;
+      }
+
+      this.sudoku = tableroListo;
+
+      console.log("Sudoku listo para jugar:", this.sudoku);
+
       crearTableroDOM(this.sudoku);
+
       instrucciones.textContent = 'Pulse "Cargar Formulario"';
       document.getElementById('cargar').classList.replace('inactive', 'active');
     };
