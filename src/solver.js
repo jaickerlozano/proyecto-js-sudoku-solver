@@ -1,3 +1,5 @@
+import { instrucciones } from "./ui";
+
 // Función para validar si el tablero es vacío
 export function esTableroVacio(tableroPlano) {
     return tableroPlano.every(c => c === "0"); 

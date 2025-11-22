@@ -21,6 +21,8 @@ export class Sudoku {
     btnAceptar.onclick = () => {
 
       const tableroIngresado = inputs.map(i => i.value || "0");
+      
+      if (tableroIngresado.every(celda => celda === "0")) instrucciones.textContent = 'TABLERO VACÍO → creando uno automático';
 
       // Validación completa
       const tableroListo = prepararTableroInicial(tableroIngresado);
@@ -35,14 +37,17 @@ export class Sudoku {
           return;
       }
 
-      this.sudoku = tableroListo;
+      setTimeout(() => {
+        this.sudoku = tableroListo;
 
-      console.log("Sudoku listo para jugar:", this.sudoku);
+          console.log("Sudoku listo para jugar:", this.sudoku);
 
-      crearTableroDOM(this.sudoku);
+          crearTableroDOM(this.sudoku);
 
-      instrucciones.textContent = 'Pulse "Cargar Formulario"';
-      document.getElementById('cargar').classList.replace('inactive', 'active');
+          instrucciones.textContent = 'Pulse "Cargar Formulario"';
+        document.getElementById('cargar').classList.replace('inactive', 'active');
+      }, 1500);
+
     };
   }
 
