@@ -7,31 +7,34 @@
     <title>sudoku-solver</title>
   </head>
   <body>
-    <h1>Sudoku</h1>
-    <p id="instrucciones">Ingresa tu propio sudoku pulsando <strong>Ingresar</strong> o pulsa <strong>Generar</strong> para iniciar uno automáticamente</p>
+    <div class="container">
+      <h1>Sudoku</h1>
+      <p id="instrucciones">Ingresa tu propio sudoku pulsando <strong>Ingresar</strong> o pulsa <strong>Generar</strong> para iniciar uno automáticamente</p>
 
-    <!-- buttons -->
-    <div id="controls">
-      <button type="button" id="ingresar" class="active">Ingresar Sudoku</button>
-      <button type="button" id="generar" class="active">Generar Sudoku</button>
-      <button type="button" id="cargar" class="inactive">Cargar formulario -> Tablero</button>
-      <button type="button" id="continuar" class="inactive">Continuar Partida</button>
-      <button type="button" id="resolver" class="inactive">Resolver</button>
-      <button type="button" id="reiniciar" class="inactive">Reiniciar</button>
+      <!-- buttons -->
+      <div id="controls">
+        <button type="button" id="ingresar" class="active">Ingresar Sudoku</button>
+        <button type="button" id="generar" class="active">Generar Sudoku</button>
+        <button type="button" id="cargar" class="inactive">Cargar formulario -> Tablero</button>
+        <button type="button" id="continuar" class="inactive">Continuar Partida</button>
+        <button type="button" id="resolver" class="inactive">Resolver</button>
+        <button type="button" id="reiniciar" class="inactive">Reiniciar</button>
+      </div>
+      <div id="entrada-container"></div>
+
+      <div id="container-errors-timmer">
+        <!-- Timmer -->
+        <p id="timmer" class="inactive">00:00:00</p>
+
+        <!-- Errors -->
+        <p id="errors" class="inactive"><strong class="textError">Errores:</strong> <span class="amountError">0</span></p>
+      </div>
+
+  <!-- 9x9 board-->    
+      <div id="board"></div>
+      <div id="digits"></div>
     </div>
-    <div id="entrada-container"></div>
 
-    <div id="container-errors-timmer">
-      <!-- Timmer -->
-      <p id="timmer" class="inactive">00:00:00</p>
-
-      <!-- Errors -->
-      <p id="errors" class="inactive"><strong class="textError">Errores:</strong> <span class="amountError">0</span></p>
-    </div>
-
-<!-- 9x9 board-->    
-    <div id="board"></div>
-    <div id="digits"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

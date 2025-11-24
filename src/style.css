@@ -4,6 +4,10 @@ body {
   background-color: rgb(180, 229, 229);
 }
 
+.container {
+  padding: 16px;
+}
+
 #controls {
   display: flex;
   justify-content: center;
@@ -86,12 +90,28 @@ button {
   display: grid;
   grid-template-columns: repeat(9, 40px);
   justify-content: center;
+  align-items: center;
   gap: 10px;
   border-radius: 5px;
 
+  @media (max-width: 760px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
   .celda {
     border-radius: 50px;
+    @media (max-width: 760px) {
+      width: 40px;
+    }
   }
+}
+
+#digits:nth-last-child {
+  display: none;
 }
 
 #digits .celda:hover {
