@@ -218,7 +218,7 @@ function resolver(tablero) {
     return true;
 }
 
-// Función para validar si hay se ha llenado todo el tablero
+// Función para validar si se ha llenado todo el tablero
 export function esTableroCorrecto(tablero) {
   // Validar filas
   for (let r = 0; r < 9; r++) {
@@ -253,3 +253,4 @@ export function esTableroCorrecto(tablero) {
 
   return true;
 }
+

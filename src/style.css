@@ -3,10 +3,6 @@ body {
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-h2 {
-  display: none;
-}
-
 #controls {
   display: flex;
   justify-content: center;
@@ -93,4 +89,17 @@ button {
 .celda.selected {
   color: beige;
   background-color: rgb(60, 60, 202);
+}
+
+#container-errors-timmer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+}
+
+.error-anim {
+  background-color: rgba(255, 0, 0, 0.4);
+  transition: background-color 0.3s;
 }

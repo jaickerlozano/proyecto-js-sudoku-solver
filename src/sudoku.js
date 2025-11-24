@@ -2,11 +2,14 @@ import { crearFormulario, crearTableroDOM, crearNumeros,
   getNumeroSeleccionado, setNumeroSeleccionado, getCeldaSeleccionada, 
   setCeldaSeleccionada, actualizarTableroArray, instrucciones } from "./ui";
 
-import { solveSudoku, generarTablero, prepararTableroInicial, esTableroCorrecto, arrayDosDim} from "./solver";
+import { solveSudoku, generarTablero, prepararTableroInicial, esTableroCorrecto, arrayDosDim, isValido} from "./solver";
+
+import { startTimer, timmer } from "./timmer";
 
 export class Sudoku {
   constructor() {
     this.sudoku = []; // Array para guardar datos del tablero
+    this.errores = 0; // Contador de errores
   }
 
   ingresarSudoku() {
@@ -62,10 +65,17 @@ export class Sudoku {
       instrucciones.textContent = '¡Sudoku cargado correctamente!'
       document.getElementById('resolver').classList.replace('inactive', 'active');
 
-      this.marcarTablero();
-
       setTimeout(() => {
+
         instrucciones.textContent = '';
+
+        // Insercción del timmer en el DOM
+        timmer.classList.replace('inactive', 'active');
+        document.getElementById('errors').classList.replace('inactive', 'active');
+        startTimer(); // Inicia el contador del tiempo
+
+        this.marcarTablero(); // Se marca en el tablero
+
       }, 1500);
     }, 1000);
     document.getElementById('cargar').classList.replace('active', 'inactive');
@@ -79,33 +89,50 @@ export class Sudoku {
     const digitos = document.getElementById('digits');
     const numeros = [...digitos.children];
 
-    // Se recorre el tablero
-    for (let num of numeroTableroDOM) {
-      num.addEventListener('click', () => {
-        
-        if (num.classList.contains('fija')) return;
+    // CLICK EN CELDAS DEL TABLERO
+    for (let celda of numeroTableroDOM) {
 
-        num.textContent = getNumeroSeleccionado();
+      celda.addEventListener('click', () => {
 
-        setCeldaSeleccionada(num);
-        this.sudoku = actualizarTableroArray(tableroDOM); // Se actualiza el array del tablero inicial con la celda marcada
+        if (celda.classList.contains('fija')) return;
+
+        const numeroSeleccionadoActual = getNumeroSeleccionado();
+        if (!numeroSeleccionadoActual) return; // No seleccionó número
+
+        const fila = parseInt(celda.dataset.r);
+        const col = parseInt(celda.dataset.c);
+
+        // Validación ANTES de pintar
+        const tablero2D = arrayDosDim([...this.sudoku]);
+
+        const esCorrecto = isValido(tablero2D, numeroSeleccionadoActual, fila, col);
+
+        if (!esCorrecto) {
+          this.registrarError();
+          celda.classList.add("error-anim");
+
+          setTimeout(() => celda.classList.remove("error-anim"), 300);
+
+          return; // NO colocar el número
+        }
+
+        // SI ES CORRECTO → colocar número
+        celda.textContent = numeroSeleccionadoActual;
+        setCeldaSeleccionada(celda);
+
+        this.sudoku = actualizarTableroArray(tableroDOM);
 
         this.juegoGanado();
-      })
+      });
     }
 
-    // Se recorre los dígitos
+    // CLICK EN LOS DIGITOS 1-9
     for (let num of numeros) {
       num.addEventListener('click', () => {
-
-        numeros.forEach(element => element.classList.remove('selected')); // Elimino el número seleccionado
-
-        num.classList.add('selected'); // Marco el número seleccionado
-
-        setNumeroSeleccionado(num.textContent); // Fijo el número seleccionado
-
-        console.log(`numero seleccionado ${getNumeroSeleccionado()}`)
-      })
+        numeros.forEach(n => n.classList.remove('selected'));
+        num.classList.add('selected');
+        setNumeroSeleccionado(num.textContent);
+      });
     }
   }
 
@@ -151,4 +178,11 @@ export class Sudoku {
 
     return ganado;
   }
+
+  // Método para registrar errores
+  registrarError() {
+    this.errores++;
+    document.querySelector(".amountError").textContent = this.errores;
+  }
+
 }
