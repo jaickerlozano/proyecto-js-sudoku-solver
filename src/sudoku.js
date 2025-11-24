@@ -4,7 +4,8 @@ import { crearFormulario, crearTableroDOM, crearNumeros,
 
 import { solveSudoku, generarTablero, prepararTableroInicial, esTableroCorrecto, arrayDosDim, isValido} from "./solver";
 
-import { startTimer, timmer } from "./timmer";
+import { guardarEstado, cargarEstado, borrarEstado } from "./storage.js";
+import { getElapsedMs, restoreTimerFrom, startTimer, stopTimer, timmer } from "./timmer";
 
 export class Sudoku {
   constructor() {
@@ -13,9 +14,11 @@ export class Sudoku {
   }
 
   ingresarSudoku() {
+    borrarEstado();
 
     document.getElementById('ingresar').classList.replace('active', 'inactive');
     document.getElementById('generar').classList.replace('active', 'inactive');
+    document.getElementById('continuar').classList.replace('active', 'inactive');
     
     instrucciones.textContent = `Seleccione una a una la celda e ingrese los números correspondientes y pulse "Aceptar"`;
 
@@ -122,6 +125,8 @@ export class Sudoku {
 
         this.sudoku = actualizarTableroArray(tableroDOM);
 
+        this.guardar(); 
+
         this.juegoGanado();
       });
     }
@@ -155,9 +160,11 @@ export class Sudoku {
   }
 
   generarSudoku() {
+    borrarEstado();
     this.sudoku = generarTablero();
     document.getElementById('generar').classList.replace('active', 'inactive');
     document.getElementById('ingresar').classList.replace('active', 'inactive');
+    document.getElementById('continuar').classList.replace('active', 'inactive');
     crearTableroDOM(this.sudoku);
     this.iniciarJuego();
   }
@@ -171,6 +178,7 @@ export class Sudoku {
     const ganado = esTableroCorrecto(tablero2D);
 
     if (ganado) {
+      stopTimer();
       instrucciones.textContent = "🎉 ¡Sudoku completado correctamente!";
       document.getElementById("board").classList.add("bloqueado");
       document.getElementById('resolver').classList.replace('active', 'inactive');
@@ -183,6 +191,31 @@ export class Sudoku {
   registrarError() {
     this.errores++;
     document.querySelector(".amountError").textContent = this.errores;
+  }
+
+  guardar() {
+    guardarEstado(this.sudoku, this.errores);
+  }
+
+  cargarPartidaSiExiste() {
+      const estadoPrevio = cargarEstado();
+      if (!estadoPrevio) return;
+
+      const btnContinuar = document.getElementById("continuar");
+      btnContinuar.classList.replace("inactive", "active");
+
+      btnContinuar.onclick = () => {
+          this.sudoku = estadoPrevio.tablero;
+          this.errores = estadoPrevio.errores;
+          document.getElementById('generar').classList.replace('active', 'inactive');
+          document.getElementById('ingresar').classList.replace('active', 'inactive');
+          document.getElementById('continuar').classList.replace('active', 'inactive');
+
+          crearTableroDOM(this.sudoku);
+          document.querySelector(".amountError").textContent = this.errores;
+
+          this.iniciarJuego();
+      };
   }
 
 }

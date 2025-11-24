@@ -1,7 +1,10 @@
 import './style.css';
 import { Sudoku } from './sudoku';
+import { cargarEstado } from './storage';
 
 const sudoku = new Sudoku();
+
+sudoku.cargarPartidaSiExiste();
 
 document.getElementById('ingresar').addEventListener('click', () => sudoku.ingresarSudoku());
 
