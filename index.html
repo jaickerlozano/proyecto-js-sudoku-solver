@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/proyecto-js-sudoku-solver/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sudoku-solver</title>
-    <script type="module" crossorigin src="/proyecto-js-sudoku-solver/assets/index-CnVCuneB.js"></script>
-    <link rel="stylesheet" crossorigin href="/proyecto-js-sudoku-solver/assets/index-BQDc_j5D.css">
+    <script type="module" crossorigin src="/proyecto-js-sudoku-solver/assets/index-5xJji4W3.js"></script>
+    <link rel="stylesheet" crossorigin href="/proyecto-js-sudoku-solver/assets/index-DdvxgpzX.css">
   </head>
   <body>
     <h1>Sudoku</h1>
@@ -21,11 +21,14 @@
     </div>
     <div id="entrada-container"></div>
 
-    <!-- Errors -->
-    <h2 id="errors">Errores: <span>0</span></h2>
+    <div id="container-errors-timmer">
+      <!-- Timmer -->
+      <p id="timmer" class="inactive">00:00:00</p>
 
-    <!-- Timmer -->
-    <!-- <p id="timmer"></p> -->
+      <!-- Errors -->
+      <p id="errors" class="inactive"><strong class="textError">Errores:</strong> <span class="amountError">0</span></p>
+    </div>
+
 <!-- 9x9 board-->    
     <div id="board"></div>
     <div id="digits"></div>
