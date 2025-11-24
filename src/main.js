@@ -13,3 +13,5 @@ document.getElementById('generar').addEventListener('click', () => sudoku.genera
 document.getElementById('cargar').addEventListener('click', () => sudoku.iniciarJuego());
 
 document.getElementById('resolver').addEventListener('click', () => sudoku.resolverSudoku());
+
+document.getElementById('reiniciar').addEventListener('click', () => sudoku.reiniciar());

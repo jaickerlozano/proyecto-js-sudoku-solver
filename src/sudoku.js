@@ -66,7 +66,6 @@ export class Sudoku {
       crearNumeros();
 
       instrucciones.textContent = '¡Sudoku cargado correctamente!'
-      document.getElementById('resolver').classList.replace('inactive', 'active');
 
       setTimeout(() => {
 
@@ -75,6 +74,7 @@ export class Sudoku {
         // Insercción del timmer en el DOM
         timmer.classList.replace('inactive', 'active');
         document.getElementById('errors').classList.replace('inactive', 'active');
+        document.getElementById('resolver').classList.replace('inactive', 'active');
         startTimer(); // Inicia el contador del tiempo
 
         this.marcarTablero(); // Se marca en el tablero
@@ -159,6 +159,11 @@ export class Sudoku {
     crearTableroDOM(this.sudoku);
 
     stopTimer();
+
+    borrarEstado();
+
+    document.getElementById("reiniciar").classList.replace("inactive", "active");
+
   }
 
   generarSudoku() {
@@ -180,10 +185,15 @@ export class Sudoku {
     const ganado = esTableroCorrecto(tablero2D);
 
     if (ganado) {
+      
       stopTimer();
+      borrarEstado();
       instrucciones.textContent = "🎉 ¡Sudoku completado correctamente!";
       document.getElementById("board").classList.add("bloqueado");
       document.getElementById('resolver').classList.replace('active', 'inactive');
+      document.getElementById("reiniciar").classList.replace("inactive", "active");
+
+      document.getElementById("reiniciar").classList.replace("inactive", "active");
     }
 
     return ganado;
@@ -222,6 +232,45 @@ export class Sudoku {
 
           this.iniciarJuego();
       };
+  }
+
+  reiniciar() {
+    // 1. Detener tiempo
+    stopTimer();
+
+    // 2. Reset internos
+    this.sudoku = []; // Método que ya tienes para crear la matriz 9x9 vacía
+    this.errores = 0;
+
+    // 3. Borrar localStorage
+    borrarEstado();
+
+    // 4. Limpieza visual
+    document.getElementById("board").innerHTML = "";
+    document.getElementById("digits").innerHTML = "";
+    document.querySelector(".amountError").textContent = "0";
+    document.getElementById("entrada-container").innerHTML = "";
+
+    // 5. Resetear interfaz
+    document.getElementById("resolver").classList.replace("active", "inactive");
+    document.getElementById("reiniciar").classList.replace("active", "inactive");
+    document.getElementById("continuar").classList.replace("active", "inactive");
+    document.getElementById("timmer").classList.replace("active", "inactive");
+    document.getElementById("errors").classList.replace("active", "inactive");
+
+    document.getElementById("ingresar").classList.replace("inactive", "active");
+    document.getElementById("generar").classList.replace("inactive", "active");
+    document.getElementById("entrada-container").classList.remove('inactive');
+
+    // 6. Reset mensaje inicial
+    document.getElementById("instrucciones").textContent =
+        "Ingresa tu propio sudoku pulsando Ingresar o pulsa Generar para iniciar uno automáticamente";
+
+    // 7. Reset temporizador en pantalla
+    timmer.textContent = "00:00:00";
+    restoreTimerFrom(0, false); // limpiar estado interno del timer
+
+    console.log("Juego reiniciado correctamente.");
   }
 
 }
