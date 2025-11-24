@@ -157,6 +157,8 @@ export class Sudoku {
     document.getElementById('resolver').classList.replace('active', 'inactive');
 
     crearTableroDOM(this.sudoku);
+
+    stopTimer();
   }
 
   generarSudoku() {
@@ -194,7 +196,8 @@ export class Sudoku {
   }
 
   guardar() {
-    guardarEstado(this.sudoku, this.errores);
+    const tiempoActual = getElapsedMs();
+    guardarEstado(this.sudoku, this.errores, tiempoActual);
   }
 
   cargarPartidaSiExiste() {
@@ -213,6 +216,9 @@ export class Sudoku {
 
           crearTableroDOM(this.sudoku);
           document.querySelector(".amountError").textContent = this.errores;
+
+          // restaurar tiempo
+          restoreTimerFrom(estadoPrevio.tiempoMs, true);
 
           this.iniciarJuego();
       };
